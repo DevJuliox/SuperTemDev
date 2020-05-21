@@ -1,14 +1,28 @@
 {
-  "name": "tem-tem",
+  "name": "super-tem",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@maael/temtem-types": "^1.0.2",
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.5.0",
     "@testing-library/user-event": "^7.2.1",
+    "@types/jquery": "^3.3.38",
+    "@types/react-burger-menu": "^2.6.1",
+    "@types/react-lazyload": "^2.6.0",
+    "@types/react-router-dom": "^5.1.5",
+    "@types/react-tabs": "^2.3.1",
+    "axios": "^0.19.2",
+    "node-sass": "^4.14.1",
+    "prop-types": "^15.7.2",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
-    "react-scripts": "3.4.1"
+    "react-ga": "^2.7.0",
+    "react-lazyload": "^2.6.7",
+    "react-router-dom": "^5.1.2",
+    "react-scripts": "3.4.1",
+    "react-tabs": "^3.1.0",
+    "typescript": "^3.8.3"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -30,5 +44,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "gh-pages": "^2.2.0"
   }
 }

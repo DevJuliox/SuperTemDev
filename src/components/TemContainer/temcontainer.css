@@ -1,0 +1,54 @@
+.boton-filtro{
+    border: none;
+    width: calc(100% * (1/7) - 5px);
+    border-radius: 5px;
+    color: #000;
+}
+button:focus{
+    outline: none;
+}
+
+.boton-filtro div{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 10px 0;
+}
+.boton-filtro div img{
+    max-width: 20px;
+    max-height: inherit;
+    width: 100%;
+}
+.boton-filtro div p{
+    margin: 0;
+}
+.tipos-container {
+    padding: 0 15px;
+    margin-top: 15px;
+    justify-content: space-between;
+    display: flex;
+    flex-wrap: wrap;
+
+  }
+
+.tipos-container button{
+    margin: 0 0 5px 5px;
+}
+.tipos-container button:nth-child(1){
+    margin: 0 0 5px 0;
+}
+.tipos-container button:nth-child(8){
+    margin: 0 0 5px 0;
+}
+.header{
+    background: #450278;
+    box-shadow: 0px 0 3px  rgba(0, 0, 0, .3);
+    padding: 0 15px 0 0;
+    display: flex;
+    justify-content: space-between;
+    position:sticky;
+    top: 0;
+    z-index: 50;
+    align-items: center;
+
+}
