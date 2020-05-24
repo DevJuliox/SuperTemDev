@@ -65,6 +65,7 @@
       border-radius: 30px;
       margin-top: -27px;
       padding: 40px 25px 0 ;
+      font-size: 14px;
   }
   .react-tabs__tab-list{
       border-bottom: 1px solid #ececec;
@@ -82,6 +83,7 @@
     box-sizing: border-box;
     border: none;
     border-bottom: 1px solid #ececec;
+    margin: 0 5px;
 }
 .react-tabs__tab:focus{
     box-shadow: none;
@@ -134,7 +136,12 @@
             & .list-item-nieto{
                 justify-content: flex-end;
             }
+            &.evolutions{
+                margin-bottom: 10px;
+            }
         }
+        
+        
       }
   }
   .barra{
@@ -143,7 +150,7 @@
       background-color: #EAECEE;
       height: 8px;
       border-radius: 10px;
-      
+      min-width: 70px;
       &-color{
           
            &-red{
@@ -161,3 +168,47 @@
       }
   }
   
+  .list .descripcion{
+    margin-top: 0;
+    font-size: 14px;
+  }
+  .flotante{
+    box-shadow: 12px 12px 24px 0 rgba(0, 0, 0, 0.2),
+      -12px -12px 24px 0 rgba(255, 255, 255, 0.5);
+      border-radius: 20px;
+      padding: 15px;
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 20px;
+      flex-direction: column;
+      & > div:last-child{
+          margin-bottom: 0;
+      }
+      & .de-lado{
+          display: flex;
+          justify-content: space-between;
+          margin-bottom: 20px;
+          flex-wrap: wrap;
+          & > div{
+              min-width: 100px;
+          }
+      }
+      & p{
+          margin-top: 0;
+      }
+  }
+  .genero{
+      display: flex;
+      & > div{
+        margin: 0 5px; 
+      }
+  }
+  .titulo{
+    color: #34515e;
+    margin-bottom: 10px;
+  }
+  .close{
+    & a{
+      display: block;
+    }
+  }

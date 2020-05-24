@@ -5,7 +5,7 @@ export const Tems  = [
     {Ubicacion:"/tem/Platox.png",name:"Platox"}
   ]
   
-  export const nuevosIconos  = [
+  export let nuevosIconos  = 
     {
         "Neutral": {
             "name": "Neutral",
@@ -60,7 +60,6 @@ export const Tems  = [
             "icon": "/iconos/Unknown.png"
         }
     }
-  ]
 
   export default {
       Tems,

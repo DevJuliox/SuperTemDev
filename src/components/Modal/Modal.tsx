@@ -6,6 +6,7 @@ import { Tab, Tabs, TabList, TabPanel } from 'react-tabs'
 import 'react-tabs/style/react-tabs.css'
 import './teminfo.scss'
 import Stats from '../Tabs/Stats'
+import Evolutions from './Evolutions'
 import './modal.scss'
 interface Props {
     match: any
@@ -43,10 +44,10 @@ class TemModal extends React.Component<Props, State>  {
     render(){
 
         const {datos, modal} = this.state
-        const baseUrl = 'https://temtem-api.mael.tech'
        
         return (
             <>
+            <div className="max">
            <div className={`${this.buscandoColores(datos.types)} tem-info`}>
             <div className="close"> 
                 {modal && <Link to="/" ><img src="./iconos/back.png" alt=""/></Link>}
@@ -62,7 +63,7 @@ class TemModal extends React.Component<Props, State>  {
                     return(
                         <div key={llave} >
                             <p>{tipos.name}</p>
-                            <img src={`${baseUrl}${tipos.icon}`} className="tipo-icono" alt=""/>
+                            <img src={`${tipos.icon}`} className="tipo-icono" alt=""/>
                         </div>
                     )
                 })}
@@ -81,7 +82,10 @@ class TemModal extends React.Component<Props, State>  {
                 <TabList>
                     <Tab>About</Tab>
                     <Tab>Base Stats</Tab>
-                    <Tab>Evolution</Tab>
+                    {
+                        datos.evolution.evolves && <Tab>Evolution</Tab>
+                    }
+                    
                     <Tab>Moves</Tab>
                 </TabList>
 
@@ -89,53 +93,92 @@ class TemModal extends React.Component<Props, State>  {
                 <div className="list">
                         <p className="descripcion">{datos.gameDescription}</p>
                         <div className="flotante">
-                            <div className="">
-                                <div className="titulo"> Height</div>
+                            <p>Characteristics</p>
+                            <div className="de-lado">
                                 <div className="">
-                                {`${datos.details.height.inches}*`}
-                                {` (${datos.details.height.cm})cm`}
+                                    <div className="titulo"> Height</div>
+                                    <div className="">
+                                    {`${datos.details.height.inches}*`}
+                                    {` (${datos.details.height.cm})cm`}
+                                    </div>
+                                </div>
+                                <div className="">
+                                    <div className="titulo">Weight</div>
+                                    <div className="">
+                                    {`${datos.details.weight.lbs}lbs`}
+                                    {` (${datos.details.weight.kg})kg`}
+                                    </div>
                                 </div>
                             </div>
-                            <div className="">
-                                <div className="titulo">Weight</div>
+                            <div className="de-lado">
                                 <div className="">
-                                {`${datos.details.weight.lbs}lbs`}
-                                {` (${datos.details.weight.kg})kg`}
+                                    <div className="titulo"> CatchRate</div>
+                                    <div className="">
+                                    {`${datos.catchRate}`}
+                                    </div>
+                                </div>
+                                <div className="">
+                                    <div className="titulo">Gender</div>
+                                    <div className="genero">
+                                        <div >
+                                            <img src="./iconos/woman.png" alt=""/>
+                                            {datos.genderRatio.female} 
+                                        </div>
+                                        <div>
+                                            <img src="./iconos/man.png" alt=""/>
+                                            {datos.genderRatio.male}
+                                        </div>
+                                    
+                                    </div>
                                 </div>
                             </div>
-                    </div>
-                <div className="list-item">
-                        <div className="list-item-nieto"> CatchRate</div>
-                        <div className="list-item-nieto">
-                        {`${datos.catchRate}`}
                         </div>
-                    </div>
-                    <div className="list-item">
-                        <div className="list-item-nieto">Gender</div>
-                        <div className="list-item-nieto">
-                            <div >
-                                <img src="./iconos/woman.png" alt=""/>
-                                {datos.genderRatio.female} 
+                        <div className="flotante">
+                            <p>Traits</p>
+                            <div className="de-lado">
+                                
+                                    {datos.traits.map((item:any, key:any)=>{
+                                        return(
+                                            <div className="titulo" key={key}>{item}</div>
+                                        )
+                                    })}
+                                    
                             </div>
-                            <div>
-                                <img src="./iconos/man.png" alt=""/>
-                                {datos.genderRatio.male}
-                            </div>
-                        
                         </div>
-                    </div>
+                        <div className="flotante">
+                            <p>Trivia</p>
+                            <div className="de-lado">
+                                {
+                                    datos.trivia.map((item:any, key: any) =>{
+                                        return(
+                                            <div className="">
+                                    <div className="titulo">{item}</div>
+    
+                                </div>
+                                        )
+                                    })
+                                }
+                            </div>
+
+                        </div>
+                
+                    
                 </div>
                 </TabPanel>
                 <TabPanel>
                 <Stats Stats={datos.stats}  />
                 </TabPanel>
+                    {
+                        datos.evolution.evolves && <TabPanel>
+                         <Evolutions Evolutions={datos} />
+                        </TabPanel>
+                    }
+                
                 <TabPanel>
-                <h2>Any content 1</h2>
-                </TabPanel>
-                <TabPanel>
-                <h2>Any content 2</h2>
+                <p>Working</p>
                 </TabPanel>
             </Tabs>
+            </div>
             </div>
             </>
         )

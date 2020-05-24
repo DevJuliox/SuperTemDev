@@ -5,7 +5,6 @@ import './modal.css'
 
 var ModalTem = ({location}: any) => {
   const { state = { } } = location;
-  console.log(state);
   const { modal } = state;
   return (
       <>

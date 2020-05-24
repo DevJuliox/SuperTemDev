@@ -41,20 +41,20 @@ class TemDescription extends Component<Props, State>  {
             let {tiposDeMap} = this.state
              tiposDeMap = responseJson.reduce(function(itemName: any, img:any ) {
                 let key = img.name
-                console.log("key", key)
+                
                 let esxisteTipo = key in itemName
-                console.log("itemName",itemName)
-                console.log("esxisteTipo",esxisteTipo)
+                
+                
                 if(!esxisteTipo){
                     itemName[key] = img
-                    console.log("entre",itemName)
+                    
                 }
                 return itemName
             }, {})
 
         axios.get(`${baseUrl}/api/temtems/${params.temId}`)
         .then(({ data: user}) =>{
-            console.log("si me ejecuto y traigo esto", user)
+            
             this.setState({
                 user
             })

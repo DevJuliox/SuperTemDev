@@ -11,8 +11,7 @@ interface Props {
 interface State {
     baseUrl: any,
     tiposDeMap: any,
-    iconoTipo: any,
-    temTipyImg: any,
+
     handleLoad: Function
 }
 
@@ -23,8 +22,7 @@ class Tem extends React.Component<Props, State> {
         this.state={
             baseUrl: '',
             tiposDeMap: {},
-            iconoTipo: {},
-            temTipyImg: [],
+   
             handleLoad: Function,
         }
         
@@ -32,10 +30,7 @@ class Tem extends React.Component<Props, State> {
    
 
     componentDidMount(){
-        const baseUrl = 'https://temtem-api.mael.tech'
-        this.setState({
-            baseUrl,
-        })
+
     }
 
     buscarTipos(data: any){
@@ -48,7 +43,7 @@ class Tem extends React.Component<Props, State> {
 
     render(){
         const {data} = this.props
-        const { baseUrl } = this.state
+        console.log(data)
         return(
             <div className="tem-container">
                 {
@@ -78,11 +73,9 @@ class Tem extends React.Component<Props, State> {
                                             <div key={llave} >
                                                 <p>{tipos.name}</p>
                                                 <LazyLoad height={data.alturaLoad} offset={data.offset}>
-                                                {
-                                                    tipos.name === 'Unknown' 
-                                                    ? <img src={`${tipos.icon}`} className="tipo-icono" alt=""/> 
-                                                    :<img src={`${baseUrl}${tipos.icon} `} className="tipo-icono" alt=""/>
-                                                }
+                                          
+                                                    <img src={`${tipos.icon} `} className="tipo-icono" alt=""/>
+                                                
                                                 </LazyLoad>
                                             </div>
                                         )

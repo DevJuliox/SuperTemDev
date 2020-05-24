@@ -1,6 +1,5 @@
 const cacheName = 'SuperTems-V1'
 const staticAssets = [
-    './',
     './manifest.webmanifest',
 
 ]
@@ -42,3 +41,42 @@ async function networkAndCache(req) {
         return cached
     }
 }
+
+
+
+
+// var CACHENAME = "SuperTems-V2";
+// var FILES = [
+//     './manifest.webmanifest',
+//     './static'
+// ];
+
+// self.addEventListener("install", function(event) {
+//   event.waitUntil(
+//     caches.open(CACHENAME).then(function(cache) {
+//       return cache.addAll(FILES);
+//     })
+//   );
+// }); 
+
+// self.addEventListener('activate', function(event) {
+//   var version = 'V2';
+//   event.waitUntil(
+//     caches.keys()
+//       .then(cacheNames =>
+//         Promise.all(
+//           cacheNames
+//             .map(c => c.split('-'))
+//             .filter(c => c[0] === 'cachestore')
+//             .filter(c => c[1] !== version)
+//             .map(c => caches.delete(c.join('-')))
+//         )
+//       )
+//   );
+// });
+
+// self.addEventListener("fetch", function(event) {
+//     event.respondWith(
+//       fetch(event.request)
+//     );
+//   });

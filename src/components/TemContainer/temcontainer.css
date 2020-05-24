@@ -1,6 +1,10 @@
+.max{
+    max-width: 768px;
+    margin: 0 auto;
+}
 .boton-filtro{
     border: none;
-    width: calc(100% * (1/7) - 5px);
+    width: calc(100% * (1/6) - 5px);
     border-radius: 5px;
     color: #000;
 }
@@ -12,7 +16,7 @@ button:focus{
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 10px 0;
+  padding: 15px 0;
 }
 .boton-filtro div img{
     max-width: 20px;
@@ -25,7 +29,7 @@ button:focus{
 .tipos-container {
     padding: 0 15px;
     margin-top: 15px;
-    justify-content: space-between;
+    justify-content: flex-start;
     display: flex;
     flex-wrap: wrap;
 
@@ -37,13 +41,15 @@ button:focus{
 .tipos-container button:nth-child(1){
     margin: 0 0 5px 0;
 }
-.tipos-container button:nth-child(8){
+.tipos-container button:nth-child(7){
+    margin: 0 0 5px 0;
+}
+.tipos-container button:nth-child(13){
     margin: 0 0 5px 0;
 }
 .header{
     background: #450278;
     box-shadow: 0px 0 3px  rgba(0, 0, 0, .3);
-    padding: 0 15px 0 0;
     display: flex;
     justify-content: space-between;
     position:sticky;
@@ -51,4 +57,13 @@ button:focus{
     z-index: 50;
     align-items: center;
 
+}
+.header a{
+    padding: 12px;
+}
+.loader{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 25vh;
 }

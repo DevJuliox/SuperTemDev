@@ -8,19 +8,31 @@ const Sidebar = (props: any) =>{
     }
     return(
         <nav className={activo} >
-            <div className="side-header">
-            <LazyLoad height={50} offset={50}>
-                <img src="./images/pvp.jpg" alt=""/>
-            </LazyLoad>
+            <div>
+                <div className="side-header">
+                    <LazyLoad height={50} offset={50}>
+                        <img src="./images/pvp.jpg" alt=""/>
+                    </LazyLoad>
+                </div>
+                <ul>
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+                    <li>
+                        <a href="/">Techniques (working)</a>
+                    </li>
+                </ul>
             </div>
-            <ul>
-                <li>
-                    <a href="/">Home</a>
-                </li>
-                <li>
-                    <a href="/Techniques">Techniques</a>
-                </li>
-            </ul>
+            <div className="social-group">
+                <ul>
+                    <li>
+                        <a href="https://twitter.com/DJulioCB" className="social">
+                            <img src="./iconos/twitter.svg" alt="twitter"/> 
+                            <p>Twitter</p>
+                            </a>
+                    </li>
+                </ul>
+            </div>
         </nav>
     )
     

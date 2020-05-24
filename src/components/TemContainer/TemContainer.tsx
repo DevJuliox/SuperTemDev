@@ -1,14 +1,14 @@
 import React from 'react'
 import Tem from '../Tem/Tem'
-import { getTems, getTemsTyipos } from '../../services/getTem'
 import Titulo from '../Titulo'
 import  './temcontainer.css'
 import '../colores.css'
 import MenuComponent from '../Menu/MenuComponent'
-import {Tems } from './Imagenes'
+import {nuevosIconos } from './Imagenes'
+import {todosLosTems} from './TodosLosTems'
 import Sidebar from '../Menu/Sidebar'
 import Backdrop from '../Menu/Backdrop'
-import LazyLoad from 'react-lazyload';
+import LazyLoad from 'react-lazyload'
 import { Link } from 'react-router-dom'
 // import { Switch, Route } from 'react-router-dom';
 // import ModalTem from './ModalTem'
@@ -32,16 +32,18 @@ interface State {
     baseUrl: any
     sideBarOpen: any
     alturaLoad: any
-    offset: any
+    offset: any,
+    hasFetched: any
 
 }
 class TemContainer extends React.Component<Props, State> {
+
     constructor (props: any) {
         super(props)
         this.state = {
             temTipyImg: [],
             isFetch: true,
-            losTiposNuevos: [],
+            losTiposNuevos: nuevosIconos,
             conDesconocido: [],
             filtrarPorTipo: [],
             sacandoTipos: [],
@@ -49,10 +51,15 @@ class TemContainer extends React.Component<Props, State> {
             filtrando: [],
             baseUrl: 'https://temtem-api.mael.tech',
             sideBarOpen: false,
-            alturaLoad: '50',
-            offset: '50'
+            alturaLoad: 80,
+            offset: 400,
+            hasFetched: false
         }
+    
     }
+
+
+
 
     async componentDidMount(){
         window.addEventListener('load', () =>{
@@ -64,106 +71,30 @@ class TemContainer extends React.Component<Props, State> {
             try { 
               await navigator.serviceWorker.register('./sw.js')
             } catch(e){
-              console.log("SW registration failed")
+              console.log("SW registration failed", e)
             }
           }
         }
-        
-    
 
-        try {
-        let {losTiposNuevos, temTipyImg} = this.state
-        const todosLosTem = await getTems()
-        const todosLosTipos = await getTemsTyipos()
-        let Unknown =  {name: 'Unknown', icon: './iconos/unknown.png'}
-        todosLosTipos.push(Unknown)
-            
-            losTiposNuevos = todosLosTipos.reduce(function(arregloTipos: any, img: any ) {
-                let key = img.name
-                let esxisteTipo = key in arregloTipos
-                if(!esxisteTipo){
-                    arregloTipos[key] = img
-                }
-                return {...arregloTipos}
-            }, {})
-            
             this.setState({
-               losTiposNuevos
-               
+               filtrando: todosLosTems,
+               isFetch: !this.state.isFetch,
             })
-
-            temTipyImg = todosLosTem.map(function(unSoloTem: any) {
-                let types = unSoloTem.types.map(function(estoEsTipo: any, llave: any){
-                  return  losTiposNuevos[estoEsTipo]
-                })
-                
-                return {...unSoloTem, types }
-            })
-            for (const i in temTipyImg) {
-                temTipyImg[i].newimagen=[]/** se le agrego el nuevo atributno new imagen
-                Se hizo array para que se le agreguen varias imagenes* */
-            }
         
-             for (const i in temTipyImg) {/**en cada elemento se busca que el nombre sea igual al nombre de json de imagenes,si es igual se inserta la nueva ruta */
-                for (const j in Tems) {
-                    if (temTipyImg[i].name===Tems[j].name) {/**aqui recore el array Tems para compararlo con el nombre del array principal */
-                        temTipyImg[i].newimagen.push(Tems[j])/**se le hace un push al atributo imagen* */
-                    }
-                }
-            }
-
-            temTipyImg.forEach((element1:any,i: any) => {
-                if (element1.evolution.evolves!==false) {
-                    element1.evolution.evolutionTree.forEach((element: any,j: any) => {
-                        temTipyImg[i].evolution.evolutionTree[j].imagenEvolution={}/**Se agrega el nuevo campo imagenEvolution y stats al array de evoluciones* */
-                        temTipyImg[i].evolution.evolutionTree[j].stats={}
-                    });
-                }
-               
-            });
-
-            temTipyImg.forEach((element1:any,i: any) => {
-                if (element1.evolution.evolves!==false) {/*se valida que el pokemon tenga evoluciones** */
-                    element1.evolution.evolutionTree.forEach((element2: any,k: any) => {/** si tiene evoluciones se hace un array a sus evoluciones */
-                        temTipyImg.forEach((element3: any) => {/**Se recorre el array original* */
-                            if (element3.name===element2.name) {/** se valida que el nombre de la evolucion sea igual al nombre del pokemon del array original* */
-                                if (element3.newimagen.length===0) {/***se valida que el campo new imagen tenga informacion */
-                                    temTipyImg[i].evolution.evolutionTree[k].stats=element3.stats
-                                    temTipyImg[i].evolution.evolutionTree[k].imagenEvolution=element3.icon/**si tiene informacion se inserta la nueva imagen** */
-                                }else {/**si no tiene informacion se inserta la imagen vieja* */
-                                    temTipyImg[i].evolution.evolutionTree[k].stats=element3.stats
-                                    temTipyImg[i].evolution.evolutionTree[k].imagenEvolution=element3.newimagen
-                                }
-                            }
-                        });
-                    });
-                }
-               
-            });
-        
-            this.setState({
-               temTipyImg,
-               filtrando: temTipyImg
-            })
-
-        } catch (error) {
-            console.log("es el error de todos los tem",error)
-        }
-        
-        this.setState({
-            isFetch: !this.state.isFetch,
-            
-        })
          
      }
-    componentDidUpdate(){
-    }
-    handleSearch(search: any){
 
-    }
+     shouldComponentUpdate(nextProps:any, nextState: any) {
+        if ( this.state.hasFetched ) {
+          return false;
+        }
+        return true;
+      }
+
     filtrar(elTipo:any){
-        let {temTipyImg} = this.state
-        let filtrando = temTipyImg
+
+        console.log(this.state.hasFetched)
+        let filtrando = todosLosTems
         // let tipo1 = elTipo
 
         if(elTipo ==="borrar"){
@@ -179,7 +110,9 @@ class TemContainer extends React.Component<Props, State> {
                 let nuevosTem = {...tem}
                 return nuevosTem
             })
+
             this.setState({
+  
                 filtrando: filtrado
             })
         
@@ -203,26 +136,28 @@ class TemContainer extends React.Component<Props, State> {
     }
     render ()  {
 
-        const { isFetch, filtrando, losTiposNuevos, baseUrl, sideBarOpen, alturaLoad, offset } = this.state
+        const { filtrando, losTiposNuevos, sideBarOpen, alturaLoad, offset } = this.state
         this.filtrar = this.filtrar.bind(this)
         const propiedades ={
             filtrando,
             alturaLoad,
             offset
         }
+
+
         return(
             <>
-            
+            <div className="max">
             <div className="header">
-            <MenuComponent  botonMenu={this.botonMenu}/>
-            <Sidebar show={this.state.sideBarOpen}/> 
-      
-            {
-                sideBarOpen && <Backdrop click={this.backdropPresionado}/>
-            }
-            <Link to="/">
-                <img src={`./iconos/Super192.png`} className="tipo-icono" alt=""/>
-            </Link>
+                <MenuComponent  botonMenu={this.botonMenu}/>
+                <Sidebar show={this.state.sideBarOpen}/> 
+        
+                {
+                    sideBarOpen && <Backdrop click={this.backdropPresionado}/>
+                }
+                <Link to="/">
+                    <img src={`./iconos/Logo.png`} className="tipo-icono-logo" alt=""/>
+                </Link>
                 
             </div>
             <div>
@@ -230,15 +165,13 @@ class TemContainer extends React.Component<Props, State> {
                     {
                         Object.keys(losTiposNuevos).map((key:any) =>{
                             return(
-                                <button className={`${losTiposNuevos[key].name} boton-filtro`}  onClick={() => this.filtrar(key)}>
+                                <button key={key} className={`${losTiposNuevos[key].name} boton-filtro`} aria-label={losTiposNuevos[key].name}  onClick={() => this.filtrar(key)}>
                                         <div>
                                         {/* <p>{losTiposNuevos[key].name}</p> */}
                                         <LazyLoad height={alturaLoad} offset={offset}>
-                                        {
-                                            losTiposNuevos[key].name === 'Unknown' 
-                                            ? <img src={`${losTiposNuevos[key].icon}`} className="tipo-icono" alt=""/>
-                                            : <img src={`${baseUrl}${losTiposNuevos[key].icon}`} className="tipo-icono" alt=""/>
-                                        }
+                                        
+                                            <img src={`${losTiposNuevos[key].icon}`} className="tipo-icono" alt=""/>
+                                        
                                         </LazyLoad>
                                         </div>
                                 </button>
@@ -255,19 +188,31 @@ class TemContainer extends React.Component<Props, State> {
                                 </button>
       
                 </div>
-            {/* <button onClick={() => this.filtrar("Digital")}>Digital</button>
-            <button onClick={() => this.filtrar("Water")}>Water</button>
-            <button onClick={() => this.filtrar("Fire")}>Fire</button>
-            <button onClick={() => this.filtrar("borrar")}>Todos</button>
-            <button onClick={() => this.filtrar("Toxic")}>Toxic</button> */}
             </div>
             <Titulo>Tems</Titulo>
-            {/* <Search handleSearch={this.handleSearch}/> */}
-            {
-                isFetch && <div>cargando</div>
-            }
+            {/* {
+                isFetch && <div className="loader" title="3">
+                                  <svg version="1.1" id="loader-1" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+                                width="40px" height="40px" viewBox="0 0 40 40" enable-background="new 0 0 40 40" xmlSpace="preserve">
+                                <path opacity="0.2" fill="#000" d="M20.201,5.169c-8.254,0-14.946,6.692-14.946,14.946c0,8.255,6.692,14.946,14.946,14.946
+                                    s14.946-6.691,14.946-14.946C35.146,11.861,28.455,5.169,20.201,5.169z M20.201,31.749c-6.425,0-11.634-5.208-11.634-11.634
+                                    c0-6.425,5.209-11.634,11.634-11.634c6.425,0,11.633,5.209,11.633,11.634C31.834,26.541,26.626,31.749,20.201,31.749z"/>
+                                <path fill="#000" d="M26.013,10.047l1.654-2.866c-2.198-1.272-4.743-2.012-7.466-2.012h0v3.312h0
+                                    C22.32,8.481,24.301,9.057,26.013,10.047z">
+                                    <animateTransform attributeType="xml"
+                                    attributeName="transform"
+                                    type="rotate"
+                                    from="0 20 20"
+                                    to="360 20 20"
+                                    dur="0.5s"
+                                    repeatCount="indefinite"/>
+                                    </path>
+                                </svg>
+                            </div>
+            } */}
 
             <Tem data={propiedades}  />
+            </div>
             </>
         ) 
     }
